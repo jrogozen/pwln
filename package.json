@@ -1,12 +1,13 @@
 {
   "name": "pwln",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf lib",
     "premake": "npm run clean",
     "postinstall": "npm run make",
+    "prepare": "npm run make",
     "make": "babel ./src -d ./lib"
   },
   "bin": {
