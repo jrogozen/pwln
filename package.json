@@ -6,14 +6,12 @@
   "scripts": {
     "clean": "rm -rf lib",
     "premake": "npm run clean",
+    "postinstall": "npm run make",
     "make": "babel ./src -d ./lib"
   },
   "bin": {
     "pwln-clean": "./lib/bin/clean.js"
   },
-  "pre-push": [
-    "make"
-  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -25,7 +23,5 @@
     "babel-runtime": "^6.23.0",
     "shelljs": "^0.7.8"
   },
-  "devDependencies": {
-    "pre-push": "^0.1.1"
-  }
+  "devDependencies": {}
 }
