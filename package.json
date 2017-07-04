@@ -6,7 +6,6 @@
   "scripts": {
     "clean": "rm -rf lib",
     "premake": "npm run clean",
-    "postinstall": "npm run make",
     "prepublish": "npm run make",
     "make": "babel ./src -d ./lib"
   },
