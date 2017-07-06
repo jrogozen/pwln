@@ -3,7 +3,8 @@ import paths from './paths';
 export default function webpackSharedConfig(options) {
     const {
         // nodeEnv is the environment we are building for (production, development, ...)
-        nodeEnv
+        nodeEnv,
+        port = 8080
     } = options;
 
     const isDev = nodeEnv !== 'production';
@@ -92,6 +93,7 @@ export default function webpackSharedConfig(options) {
         urlLoader,
         inlineSvgLoader,
         tsxLoader,
-        paths
+        paths,
+        port
     };
 };

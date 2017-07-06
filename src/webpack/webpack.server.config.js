@@ -25,6 +25,7 @@ export default function webpackServerConfig(options) {
         // expose variables available in project
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(nodeEnv),
+            'process.env.PORT': port,
             __CLIENT__: false,
             __SERVER__: true,
             __DEV__: isDev,

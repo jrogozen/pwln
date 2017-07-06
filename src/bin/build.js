@@ -7,7 +7,8 @@ var build = require('../webpack/build.js').default;
 var webpackSharedConfig = require('../webpack/webpack.shared.config.js').default;
 
 const options = webpackSharedConfig({
-    nodeEnv: process.env.NODE_ENV
+    nodeEnv: process.env.NODE_ENV,
+    port: process.env.PORT
 });
 
 console.log(chalk.green('Building project with node-config'));
