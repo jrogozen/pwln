@@ -1,5 +1,7 @@
+import appRootDir from 'app-root-dir';
 import AssetsPlugin from 'assets-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import path from 'path';
 import webpack from 'webpack';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import { CheckerPlugin } from 'awesome-typescript-loader';
@@ -119,9 +121,18 @@ export default function webpackClientConfig(options) {
                 tsxLoader,
                 {
                     test: /\.s?css$/,
-                    // exclude: /node_modules/, can't exclude, have to process mui stuff
+                    exclude: /node_modules/,
                     use: ExtractTextPlugin.extract({
-                        loader: ['css-loader', 'postcss-loader', 'sass-loader']
+                        use: [
+                            { loader: 'css-loader?minimize' },
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    config: { path: path.resolve(appRootDir.get(), 'node_modules/pwln/postcss.config.js') }
+                                }
+                            },
+                            { loader: 'sass-loader' }
+                        ]
                     })
                 },
             ]

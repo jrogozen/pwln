@@ -1,4 +1,6 @@
+import appRootDir from 'app-root-dir';
 import nodeExternals from 'webpack-node-externals';
+import path from 'path';
 import webpack from 'webpack';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import { CheckerPlugin } from 'awesome-typescript-loader';
@@ -98,7 +100,17 @@ export default function webpackServerConfig(options) {
                 tsxLoader,
                 {
                     test: /\.s?css$/,
-                    use: ['css-loader?minimize', 'postcss-loader', 'sass-loader']
+                    exclude: /node_modules/,
+                    use: [
+                        { loader: 'css-loader?minimize' },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                config: { path: path.resolve(appRootDir.get(), 'node_modules/pwln/postcss.config.js') }
+                            }
+                        },
+                        { loader: 'sass-loader' }
+                    ]
                 }
             ]
         },
