@@ -18,7 +18,8 @@ export default function webpackClientConfig(options) {
         performance,
         inlineSvgLoader,
         tsxLoader,
-        paths
+        paths,
+        port
     } = options;
 
     const plugins = [
