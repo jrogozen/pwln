@@ -11,7 +11,8 @@
   },
   "bin": {
     "pwln-clean": "./lib/bin/clean.js",
-    "pwln-build": "./lib/bin/build.js"
+    "pwln-build": "./lib/bin/build.js",
+    "pwln-dev": "./lib/bin/dev.js"
   },
   "author": "",
   "license": "ISC",
