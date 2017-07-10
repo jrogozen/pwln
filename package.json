@@ -14,6 +14,13 @@
     "pwln-build": "./lib/bin/build.js",
     "pwln-dev": "./lib/bin/dev.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jrogozen/pwln.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jrogozen/pwln/issues"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
