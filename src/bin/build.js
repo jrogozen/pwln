@@ -12,6 +12,5 @@ const options = webpackSharedConfig({
 });
 
 console.log(chalk.green('Building project with pwln'));
-console.log(chalk.blue('Options:'), options);
 
 build(options);

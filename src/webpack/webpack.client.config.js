@@ -1,7 +1,6 @@
-import appRootDir from 'app-root-dir';
 import AssetsPlugin from 'assets-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import path from 'path';
+import prettyjson from 'prettyjson';
 import webpack from 'webpack';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import { CheckerPlugin } from 'awesome-typescript-loader';
@@ -21,6 +20,7 @@ export default function webpackClientConfig(options) {
         inlineSvgLoader,
         tsxLoader,
         paths,
+        resolveLoader,
         port
     } = options;
 
@@ -55,7 +55,10 @@ export default function webpackClientConfig(options) {
         }),
 
         // extract out required css into a single chunkhashed file
-        new ExtractTextPlugin({ filename: '[name]-[chunkhash].css', allChunks: true }),
+        new ExtractTextPlugin({
+            filename: isDev ? '[name].css' : '[name]-[chunkhash].css',
+            allChunks: true
+        }),
 
         // polyfill for native promises
         new webpack.ProvidePlugin({
@@ -83,7 +86,7 @@ export default function webpackClientConfig(options) {
         );
     }
 
-    return {
+    const clientOptions = {
         target: 'web',
 
         devtool: devTool,
@@ -100,7 +103,7 @@ export default function webpackClientConfig(options) {
 
             // js bundle that contains code from all entry points + webpack runtime
             // include chunkhash for versioning/cache busting
-            filename: '[name]-[chunkhash].js',
+            filename: isDev ? '[name].js' : '[name]-[chunkhash].js',
 
             chunkFilename: '[name]-[chunkhash].js',
 
@@ -111,6 +114,10 @@ export default function webpackClientConfig(options) {
             modules: ['node_modules'],
             extensions: resolveExtensions,
             alias: resolveAlias
+        },
+
+        resolveLoader: {
+            modules: resolveLoader
         },
 
         module: {
@@ -126,10 +133,7 @@ export default function webpackClientConfig(options) {
                         use: [
                             { loader: 'css-loader?minimize' },
                             {
-                                loader: 'postcss-loader',
-                                options: {
-                                    config: { path: path.resolve(appRootDir.get(), 'node_modules/pwln/postcss.config.js') }
-                                }
+                                loader: 'postcss-loader'
                             },
                             { loader: 'sass-loader' }
                         ]
@@ -140,4 +144,8 @@ export default function webpackClientConfig(options) {
 
         plugins
     };
+
+    console.log(prettyjson.render(clientOptions));
+
+    return clientOptions;
 };

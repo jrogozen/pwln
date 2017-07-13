@@ -1,3 +1,6 @@
+import appRootDir from 'app-root-dir';
+import path from 'path';
+
 import paths from './paths';
 
 export default function webpackSharedConfig(options) {
@@ -22,6 +25,11 @@ export default function webpackSharedConfig(options) {
     // what file extensions should webpack automatically resolve?
     // eg: import myFile from './myFile.js' vs import myFile from './myFile'
     const resolveExtensions = ['.ts', '.tsx', '.js', '.jsx', '.json'];
+
+    const resolveLoader = [
+        path.resolve(appRootDir.get(), './node_modules/pwln/node_modules'),
+        'node_modules'
+    ];
 
     // what aliases should be usable?
     // eg: import myFile from 'scss/myFile.scss' will reference paths.scss/myFile.scss
@@ -92,6 +100,7 @@ export default function webpackSharedConfig(options) {
         babelLoader,
         urlLoader,
         inlineSvgLoader,
+        resolveLoader,
         tsxLoader,
         paths,
         port

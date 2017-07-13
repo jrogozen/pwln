@@ -1,6 +1,5 @@
-import appRootDir from 'app-root-dir';
 import nodeExternals from 'webpack-node-externals';
-import path from 'path';
+import prettyjson from 'prettyjson';
 import webpack from 'webpack';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import { CheckerPlugin } from 'awesome-typescript-loader';
@@ -19,6 +18,7 @@ export default function webpackServerConfig(options) {
         performance,
         inlineSvgLoader,
         tsxLoader,
+        resolveLoader,
         paths,
         port
     } = options;
@@ -45,7 +45,7 @@ export default function webpackServerConfig(options) {
         plugins.push(new UglifyJsPlugin());
     }
 
-    return {
+    const serverOptions = {
         target: 'node',
 
         node: {
@@ -91,6 +91,10 @@ export default function webpackServerConfig(options) {
             alias: resolveAlias
         },
 
+        resolveLoader: {
+            modules: resolveLoader
+        },
+
         // rules for what loaders should be used on various file types
         module: {
             rules: [
@@ -104,10 +108,7 @@ export default function webpackServerConfig(options) {
                     use: [
                         { loader: 'css-loader?minimize' },
                         {
-                            loader: 'postcss-loader',
-                            options: {
-                                config: { path: path.resolve(appRootDir.get(), 'node_modules/pwln/postcss.config.js') }
-                            }
+                            loader: 'postcss-loader'
                         },
                         { loader: 'sass-loader' }
                     ]
@@ -117,4 +118,8 @@ export default function webpackServerConfig(options) {
 
         plugins
     };
+
+    console.log(prettyjson.render(serverOptions));
+
+    return serverOptions;
 };

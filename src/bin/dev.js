@@ -10,6 +10,5 @@ var options = webpackSharedConfig({
 });
 
 console.log(chalk.green('Running project in watch mode with pwln'));
-console.log(chalk.blue('Options:'), options);
 
 watch(options);
