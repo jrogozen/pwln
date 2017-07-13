@@ -20,8 +20,7 @@ export default function webpackClientConfig(options) {
         inlineSvgLoader,
         tsxLoader,
         paths,
-        resolveLoader,
-        port
+        resolveLoader
     } = options;
 
     const plugins = [
@@ -68,7 +67,6 @@ export default function webpackClientConfig(options) {
         // expose variables available in project
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(nodeEnv),
-            'process.env.PORT': port,
             __CLIENT__: true,
             __SERVER__: false,
             __DEV__: isDev,
