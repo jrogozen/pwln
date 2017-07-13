@@ -19,7 +19,8 @@ export default function webpackServerConfig(options) {
         inlineSvgLoader,
         tsxLoader,
         resolveLoader,
-        paths,
+        entryPoints,
+        outputPoints
     } = options;
 
     const plugins = [
@@ -68,12 +69,12 @@ export default function webpackServerConfig(options) {
         entry: {
             // the entry point for the server build
             // requires all subsequent files
-            index: paths.serverIndex
+            index: entryPoints.server
         },
 
         // where webpack should output built files
         output: {
-            path: paths.serverOutput,
+            path: outputPoints.server,
             pathinfo: true,
 
             // how should webpack reference the built files

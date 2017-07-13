@@ -1,13 +1,67 @@
+import assign from 'lodash/assign';
 import appRootDir from 'app-root-dir';
+import chalk from 'chalk';
+import fs from 'fs';
+import forEach from 'lodash/forEach';
+import jsonfile from 'jsonfile';
 import path from 'path';
+import prettyjson from 'prettyjson';
 
 import paths from './paths';
+
+function readConfig() {
+    const configFile = path.resolve(appRootDir.get(), './pwln.json');
+
+
+    try {
+        const exists = fs.statSync(configFile);
+
+        if (exists) {
+            console.log(chalk.green('found pwln.json, loading config'));
+
+            const config = jsonfile.readFileSync(configFile);
+
+            if (config.aliases) {
+                forEach(config.aliases, (v, k) => {
+                    config.aliases[k] = path.resolve(appRootDir.get(), v);
+                });
+            }
+
+            if (config.outputPoints) {
+                forEach(config.outputPoints, (v, k) => {
+                    config.outputPoints[k] = path.resolve(appRootDir.get(), v);
+                });
+            }
+
+            if (config.entryPoints) {
+                forEach(config.entryPoints, (v, k) => {
+                    config.entryPoints[k] = path.resolve(appRootDir.get(), v);
+                });
+            }
+
+            console.log(prettyjson.render(config));
+
+            return config;
+        } else {
+            console.log(chalk.red('error reading pwln.json, using defaults'));
+
+            return false;
+        }
+    } catch(err) {
+        console.log(chalk.red('error reading pwln.json config, using defaults.'));
+
+        return false;
+    }
+}
 
 export default function webpackSharedConfig(options) {
     const {
         // nodeEnv is the environment we are building for (production, development, ...)
         nodeEnv
     } = options;
+
+    // read config file if it exists
+    const config = readConfig() || {};
 
     const isDev = nodeEnv !== 'production';
 
@@ -32,7 +86,7 @@ export default function webpackSharedConfig(options) {
 
     // what aliases should be usable?
     // eg: import myFile from 'scss/myFile.scss' will reference paths.scss/myFile.scss
-    const resolveAlias = {
+    const resolveAlias = config.aliases || {
         app: paths.app,
         scss: paths.scss,
         shared: paths.shared,
@@ -43,7 +97,16 @@ export default function webpackSharedConfig(options) {
         test: paths.test,
         dist: paths.dist,
         public: paths.public
+    };
 
+    const outputPoints = config.outputPoints || {
+        client: paths.clientOutput,
+        server: paths.serverOutput
+    };
+
+    const entryPoints = config.entryPoints || {
+        client: paths.clientIndex,
+        server: paths.serverIndex
     };
 
     // run esLintLoader before webpack compiles
@@ -101,6 +164,8 @@ export default function webpackSharedConfig(options) {
         inlineSvgLoader,
         resolveLoader,
         tsxLoader,
-        paths
+        paths,
+        entryPoints,
+        outputPoints
     };
 };

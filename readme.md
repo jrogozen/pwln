@@ -10,6 +10,38 @@ Otherwise, browse the source code here and try it out by running
 
 `npm install pwln`
 
+## Config
+
+pwln optionally accepts a `pwln.json` file in project root. You can use this to set the client and server entry points, as well as the aliases you want available when webpack builds
+
+eg:
+
+```
+{
+    "aliases": {
+        "app": "./app",
+        "scss": "./scss",
+        "shared": "./app/shared",
+        "client": "./app/client",
+        "server": "./app/server",
+        "images": "./app/images",
+        "config": "./config",
+        "dist": "./dist",
+        "public": "./public"
+    },
+    "entryPoints": {
+        "client": "./app/client/index.js",
+        "server": "./app/server/index.js"
+    },
+    "outputPoints": {
+        "client": "./dist/client",
+        "server": "./dist/server"
+    }
+}
+```
+
+If no `pwln.json` file is found, the above will be used as the default options.
+
 ## Usage
 
 After installation, pwln makes a few commands available in package.json scripts

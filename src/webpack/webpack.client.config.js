@@ -19,9 +19,12 @@ export default function webpackClientConfig(options) {
         performance,
         inlineSvgLoader,
         tsxLoader,
-        paths,
-        resolveLoader
+        resolveLoader,
+        entryPoints,
+        outputPoints
     } = options;
+
+    console.log('CLIENT HAS..', entryPoints, outputPoints);
 
     const plugins = [
         // create a separate vendor.js bundle on output that includes packages imported from node_modules
@@ -45,7 +48,7 @@ export default function webpackClientConfig(options) {
         // this is so we can include the script links to built js/css files when we generate HTML
         new AssetsPlugin({
             filename: 'assets.json',
-            path: paths.clientOutput,
+            path: outputPoints.client,
             prettyPrint: true,
             includeManifest: 'manifest',
             metadata: {
@@ -90,13 +93,13 @@ export default function webpackClientConfig(options) {
         devtool: devTool,
 
         entry: {
-            index: paths.clientIndex
+            index: entryPoints.client
         },
 
         performance,
 
         output: {
-            path: paths.clientOutput,
+            path: outputPoints.client,
             pathinfo: true,
 
             // js bundle that contains code from all entry points + webpack runtime
