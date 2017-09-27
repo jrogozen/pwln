@@ -129,8 +129,7 @@ export default function webpackSharedConfig(options) {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-            presets: ['es2015', 'react', 'stage-0'],
-            babelrc: false
+            presets: ['es2015', 'react', 'stage-0']
         }
     };
 
